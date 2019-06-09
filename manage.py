@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '电影首页'
+    return '电影首页1'
 
 
 if __name__ == '__main__':
