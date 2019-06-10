@@ -10,9 +10,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db = SQLAlchemy(app)
 
 
-# 会员
-
 class User(db.Model):
+    """会员信息模型"""
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)  # 编号
     name = db.Column(db.String(100), unique=True)  # 昵称
@@ -29,6 +28,7 @@ class User(db.Model):
 
 
 class Userlog(db.Model):
+    """用户登录日志"""
     __tablename__ = "userlog"
     id = db.Column(db.Integer, primary_key=True)  # 编号
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))  # 所属会员
