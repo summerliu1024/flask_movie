@@ -20,7 +20,7 @@ class User(db.Model):
     phone = db.Column(db.String(11), unique=True)  # 手机号
     info = db.Column(db.Text)  # 个性化介绍
     face = db.Column(db.String(255), unique=True)  # 头像
-    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow())  # 注册时间
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 注册时间
     uuid = db.Column(db.String(255), unique=True)  # 唯一标识符
 
     def __repr__(self):
@@ -33,7 +33,7 @@ class Userlog(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 编号
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))  # 所属会员
     ip = db.Column(db.String(100))  # 登录ip
-    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow())  # 登录时间
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 登录时间
 
     def __repr__(self):
         return "<userlog: %r>" % self.id
@@ -44,7 +44,7 @@ class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True)  # 编号
     name = db.Column(db.String(100), unique=True)  # 标题
-    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow())  # 添加时间
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 添加时间
     movies = db.relationship("Movie", backref='tag')  # 电影外键关系关联
 
     def __repr__(self):
@@ -66,7 +66,19 @@ class Movie(db.Model):
     area = db.Column(db.String(255))  # 上映地区
     release_time = db.Column(db.Date)  # 上映时间
     length = db.Column(db.String(100))  # 播放时间
-    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow())  # 添加时间
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 添加时间
 
     def __repr__(self):
         return "<Movie: %r>" % self.title
+
+
+class Preview(db.Model):
+    """电影预告"""
+    __tablename__ = "preview"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    title = db.Column(db.String(255), unique=True)  # 标题
+    logo = db.Column(db.String(255), unique=True)  # 封面
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow())  # 添加时间
+
+    def __repr__(self):
+        return "<Preview: %r>" % self.title
