@@ -23,6 +23,7 @@ class User(db.Model):
     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 注册时间
     uuid = db.Column(db.String(255), unique=True)  # 唯一标识符
     comments = db.relationship("Comment", backref="user")  # 评论外键关系关联
+    userlog = db.relationship("Userlog", backref="user")  # 会员日志外键关系关联
 
     def __repr__(self):
         return "<User: %r>" % self.name
