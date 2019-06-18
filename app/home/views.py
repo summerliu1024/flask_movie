@@ -17,3 +17,8 @@ def login():
 def logout():
     """点击退出 进入登录页面"""
     return redirect(url_for("home.login"))
+
+
+@home.route("/register")
+def register():
+    return render_template("home/register.html")
