@@ -1,13 +1,6 @@
 from datetime import datetime
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:mysql@127.0.0.1:3306/flask_movie"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-
-db = SQLAlchemy(app)
+from app import db
 
 
 class User(db.Model):
@@ -62,9 +55,9 @@ class Movie(db.Model):
     url = db.Column(db.String(255), unique=True)  # 链接
     info = db.Column(db.Text)  # 简介
     logo = db.Column(db.String(255), unique=True)  # 封面
-    star = db.Model(db.SmallInteger)  # 星级
-    playnum = db.Model(db.BigInteger)  # 播放量
-    commentnum = db.Model(db.BigInteger)  # 评论量
+    star = db.Column(db.SmallInteger)  # 星级
+    playnum = db.Column(db.BigInteger)  # 播放量
+    commentnum = db.Column(db.BigInteger)  # 评论量
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))  # 所属标签
     area = db.Column(db.String(255))  # 上映地区
     release_time = db.Column(db.Date)  # 上映时间
@@ -116,7 +109,7 @@ class Moviecol(db.Model):
 
 class Auth(db.Model):
     """权限"""
-    __table__ = "auth"
+    __tablename__ = "auth"
     id = db.Column(db.Integer, primary_key=True)  # 编号
     name = db.Column(db.String(100), unique=True)  # 名称
     url = db.Column(db.String(255), unique=True)  # 地址
@@ -128,7 +121,7 @@ class Auth(db.Model):
 
 class Role(db.Model):
     """权限"""
-    __table__ = "role"
+    __tablename__ = "role"
     id = db.Column(db.Integer, primary_key=True)  # 编号
     name = db.Column(db.String(100), unique=True)  # 名称
     auths = db.Column(db.String(600))  # 地址
