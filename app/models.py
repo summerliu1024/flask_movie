@@ -125,6 +125,7 @@ class Auth(db.Model):
     def __repr__(self):
         return "<Auth: %r>" % self.name
 
+
 class Role(db.Model):
     """权限"""
     __table__ = "role"
@@ -132,7 +133,48 @@ class Role(db.Model):
     name = db.Column(db.String(100), unique=True)  # 名称
     auths = db.Column(db.String(600))  # 地址
     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 添加时间
+    admins = db.relationship("Admin", backref="role")  # 管理员外键关系关联
 
     def __repr__(self):
         return "<Role: %r>" % self.name
 
+
+class Admin(db.Model):
+    """管理员表"""
+    __tablename___ = "admin"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    name = db.Column(db.String(100), unique=True)  # 管理员账号
+    pwd = db.Column(db.String(100))  # 管理员密码
+    is_super = db.Column(db.SmallInteger)  # 是否为超级管理员，0为超级管理员
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))  # 所属角色
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    adminlogs = db.relationship("AdminLog", backref="admin")  # 管理员日志外键关系关联
+    oplogs = db.relationship("OpLog", backref="admin")  # 管理员操作日志外键关系关联
+
+    def __repr__(self):
+        return "<Admin: %r>" % self.name
+
+
+class AdminLog(db.Model):
+    """管理员登录日志"""
+    __tablename__ = "adminlog"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))  # 所属会员
+    ip = db.Column(db.String(100))  # 登录IP
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<AdminLog: %r>" % self.id
+
+
+class OpLog(db.Model):
+    """管理员操作日志"""
+    __tablename__ = "oplog"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))  # 所属管理
+    ip = db.Column(db.String(100))  # 登录IP
+    reason = db.Column(db.String(600))  # 操作原因
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<OpLog: %r>" % self.id
