@@ -24,6 +24,7 @@ class User(db.Model):
     uuid = db.Column(db.String(255), unique=True)  # 唯一标识符
     comments = db.relationship("Comment", backref="user")  # 评论外键关系关联
     userlog = db.relationship("Userlog", backref="user")  # 会员日志外键关系关联
+    miviecols = db.relationship("Moviecol", backref="user")  # 收藏外键关系关联
 
     def __repr__(self):
         return "<User: %r>" % self.name
@@ -70,6 +71,7 @@ class Movie(db.Model):
     length = db.Column(db.String(100))  # 播放时间
     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 添加时间
     comments = db.relationship("Comment", backref="movie")  # 评论外键关系关联
+    miviecols = db.relationship("Moviecol", backref="movie")  # 收藏外键关系关联
 
     def __repr__(self):
         return "<Movie: %r>" % self.title
@@ -98,3 +100,15 @@ class Comment(db.Model):
 
     def __repr__(self):
         return "<Comment: %r>" % self.id
+
+
+class Moviecol(db.Model):
+    """电影收藏"""
+    __tablename__ = "movecol"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))  # 所属电影
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 所属用户
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 添加时间
+
+    def __repr__(self):
+        return "<Moviecol: %r>" % self.id
