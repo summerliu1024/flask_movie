@@ -15,9 +15,9 @@
         .navbar-brand > img {
             display: inline;
         }
-        
+
         {% block style %}
-        
+
         {% endblock %}
 
     </style>
@@ -65,7 +65,8 @@
                             class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
                 </li>
                 <li>
-                    <a class="curlink" href="{{ url_for('home.register') }}"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
+                    <a class="curlink" href="{{ url_for('home.register') }}"><span
+                            class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
                 </li>
                 <li>
                     <a class="curlink" href="{{ url_for('home.logout') }}"><span
@@ -121,5 +122,8 @@
     });
 
 </script>
+{% block script %}
+
+{% endblock %}
 </body>
 </html>
